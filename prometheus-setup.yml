@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+#****************************************************************************
+# Prometheus
+#****************************************************************************
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/config:/etc/prometheus            
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    networks:
+      prometheus-network:
+        ipv4_address: 172.18.0.2
+
+#****************************************************************************
+# Node Exporter
+#****************************************************************************
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter
+    ports:
+      - '9100:9100'
+    networks:
+      prometheus-network:
+        ipv4_address: 172.18.0.3
+
+networks:
+  prometheus-network:
+    driver: bridge
+    name: prometheus-network
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1
