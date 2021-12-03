@@ -1,2 +1,2 @@
 # prometheus_setup
-This is a repo for containerising prometheus.
+This repo is about setting up Prometheus monitoring tool with docker compose.
